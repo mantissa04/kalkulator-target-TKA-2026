@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Target TKA 2026 - Mantissa</title>
+    <!-- Memuat font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat jsPDF untuk pembuatan file PDF asli -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Konfigurasi Tailwind Kustom -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        mantissa: {
+                            light: '#e0f2f1',
+                            teal: '#00897b',
+                            green: '#43a047',
+                            dark: '#004d40',
+                            black: '#111827'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f0fdf4;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(152,69%,80%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(168,76%,82%,1) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        select::-webkit-scrollbar {
+            width: 8px;
+        }
+        select::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        select::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        select::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+
+    <div class="w-full max-w-5xl bg-white shadow-2xl rounded-3xl overflow-hidden border border-mantissa-light">
+        
+        <!-- Header Section -->
+        <div class="relative bg-mantissa-black p-8 sm:p-10 text-center sm:text-left overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-mantissa-teal opacity-20 blur-3xl"></div>
+            <div class="absolute bottom-0 right-40 w-72 h-72 rounded-full bg-mantissa-green opacity-20 blur-3xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1 text-white">
+                    <div class="flex items-center justify-center sm:justify-start mb-6">
+                        <div class="bg-white p-3 rounded-xl border border-white/20 shadow-lg inline-block">
+                             <img src="https://iili.io/ncwQRus.png" alt="Logo Mantissa" class="h-14 sm:h-16 object-contain rounded-md" onerror="this.onerror=null; this.src='https://placehold.co/200x80/fff/00897b?text=MANTISSA';">
+                        </div>
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-mantissa-light to-white">
+                        Pemetaan Target TKA 2026
+                    </h1>
+                    
+                    <div class="bg-mantissa-dark/40 border border-mantissa-teal/30 p-4 rounded-xl shadow-inner mb-4 backdrop-blur-md">
+                        <p class="text-mantissa-light text-sm sm:text-base leading-relaxed">
+                            Masukkan nilai rata-rata rapormu untuk memetakan proyeksi skor TKA dan target soal yang harus diamankan pada mata pelajaran wajib dan pilihan. Tujuannya agar kategori hasil TKA kamu tidak jomplang.
+                        </p>
+                    </div>
+                    
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-mantissa-green to-mantissa-teal px-4 py-2 rounded-full shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-white font-bold italic text-sm sm:text-base tracking-wide">
+                            "Gagal merencanakan = merencanakan kegagalan."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex justify-center items-center w-64 h-64 relative animate-float">
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-2xl">
+                        <path fill="#00897b" opacity="0.8" d="M42.7,-64.1C55.6,-53.4,66.4,-40.7,73.5,-26.1C80.6,-11.5,84.1,5.1,79.9,20.3C75.7,35.5,63.9,49.2,50.1,58.8C36.3,68.4,20.6,73.9,4.4,67.6C-11.7,61.3,-27.4,43.2,-41.2,30.3C-55,17.4,-67,-0.3,-67.2,-17C-67.4,-33.7,-55.8,-49.4,-41.8,-59.5C-27.8,-69.6,-13.9,-74.1,0.6,-74.9C15.1,-75.7,30.3,-72.7,42.7,-64.1Z" transform="translate(200 200) scale(2.2)" />
+                        <circle cx="200" cy="180" r="100" fill="#ffffff" />
+                        <circle cx="200" cy="180" r="75" fill="#e0f2f1" />
+                        <circle cx="200" cy="180" r="50" fill="#43a047" />
+                        <circle cx="200" cy="180" r="25" fill="#fcd34d" />
+                        <path d="M120 260 L 195 185" stroke="#111827" stroke-width="8" stroke-linecap="round"/>
+                        <polygon points="195,185 180,180 185,195" fill="#111827"/>
+                        <rect x="250" y="270" width="80" height="20" rx="4" fill="#004d40" transform="rotate(-15 250 270)"/>
+                        <rect x="260" y="250" width="70" height="15" rx="3" fill="#e0f2f1" transform="rotate(-15 260 250)"/>
+                        <path d="M180 60 L 250 90 L 180 120 L 110 90 Z" fill="#111827"/>
+                        <rect x="150" y="100" width="60" height="30" fill="#111827"/>
+                        <path d="M245 90 L 245 140" stroke="#fcd34d" stroke-width="4"/>
+                        <circle cx="245" cy="145" r="5" fill="#fcd34d"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 sm:p-10 bg-white">
+            <div id="error-box" class="hidden mb-8 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r-xl shadow-sm flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 text-red-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                    <p class="font-bold">Perhatian:</p>
+                    <p id="error-message" class="text-sm mt-1">Harap isi semua nilai dengan angka antara 1 hingga 100.</p>
+                </div>
+            </div>
+
+            <form id="calculator-form" class="space-y-10">
+                <!-- Mata Pelajaran Wajib -->
+                <div class="bg-mantissa-light/30 p-6 sm:p-8 rounded-2xl border border-mantissa-teal/20">
+                    <div class="flex items-center gap-3 border-b border-mantissa-teal/20 pb-3 mb-6">
+                        <div class="bg-mantissa-teal text-white p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.22 4.622 1 1 0 01-.89.89 8.975 8.975 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-mantissa-dark">Mata Pelajaran Wajib</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="flex flex-col group">
+                            <label class="text-sm font-semibold text-slate-700 mb-2 group-focus-within:text-mantissa-teal transition-colors">Bahasa Indonesia</label>
+                            <div class="relative">
+                                <input type="number" id="val-indo" min="1" max="100" placeholder="Rata-rata Rapor" class="w-full pl-4 pr-12 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-0 focus:border-mantissa-teal transition-all text-lg font-bold text-slate-800 shadow-sm hover:border-slate-300" required>
+                                <span class="absolute right-4 top-4 text-slate-400 font-medium">/100</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col group">
+                            <label class="text-sm font-semibold text-slate-700 mb-2 group-focus-within:text-mantissa-teal transition-colors">Bahasa Inggris</label>
+                            <div class="relative">
+                                <input type="number" id="val-inggris" min="1" max="100" placeholder="Rata-rata Rapor" class="w-full pl-4 pr-12 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-0 focus:border-mantissa-teal transition-all text-lg font-bold text-slate-800 shadow-sm hover:border-slate-300" required>
+                                <span class="absolute right-4 top-4 text-slate-400 font-medium">/100</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col group">
+                            <label class="text-sm font-semibold text-slate-700 mb-2 group-focus-within:text-mantissa-teal transition-colors">Matematika</label>
+                            <div class="relative">
+                                <input type="number" id="val-math" min="1" max="100" placeholder="Rata-rata Rapor" class="w-full pl-4 pr-12 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:ring-0 focus:border-mantissa-teal transition-all text-lg font-bold text-slate-800 shadow-sm hover:border-slate-300" required>
+                                <span class="absolute right-4 top-4 text-slate-400 font-medium">/100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mata Pelajaran Pilihan -->
+                <div class="bg-mantissa-light/30 p-6 sm:p-8 rounded-2xl border border-mantissa-teal/20">
+                    <div class="flex items-center gap-3 border-b border-mantissa-teal/20 pb-3 mb-6">
+                        <div class="bg-mantissa-green text-white p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-mantissa-dark">Mata Pelajaran Pilihan (Peminatan)</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white p-5 sm:p-6 rounded-xl border-2 border-slate-200 shadow-sm hover:border-mantissa-green transition-colors focus-within:border-mantissa-green">
+                            <label class="text-sm font-semibold text-slate-700 mb-3 block">Pilih Mapel Pilihan 1 & Nilainya</label>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <select id="name-pil1" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-3.5 focus:ring-2 focus:ring-mantissa-teal focus:border-mantissa-teal focus:outline-none text-sm font-medium text-slate-700 transition-shadow" required>
+                                    <option value="" disabled selected>Pilih Mapel dari Daftar...</option>
+                                    <option value="Matematika Tingkat Lanjut">Matematika Tingkat Lanjut</option>
+                                    <option value="Bahasa Indonesia Tingkat Lanjut">Bahasa Indonesia Tingkat Lanjut</option>
+                                    <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
+                                    <option value="Fisika">Fisika</option>
+                                    <option value="Kimia">Kimia</option>
+                                    <option value="Biologi">Biologi</option>
+                                    <option value="Ekonomi">Ekonomi</option>
+                                    <option value="Sosiologi">Sosiologi</option>
+                                    <option value="Geografi">Geografi</option>
+                                    <option value="Sejarah">Sejarah</option>
+                                    <option value="Antropologi">Antropologi</option>
+                                    <option value="PPKn/Pendidikan Pancasila">PPKn/Pendidikan Pancasila</option>
+                                    <option value="Bahasa Arab">Bahasa Arab</option>
+                                    <option value="Bahasa Jerman">Bahasa Jerman</option>
+                                    <option value="Bahasa Prancis">Bahasa Prancis</option>
+                                    <option value="Bahasa Jepang">Bahasa Jepang</option>
+                                    <option value="Bahasa Korea">Bahasa Korea</option>
+                                    <option value="Bahasa Mandarin">Bahasa Mandarin</option>
+                                    <option value="Produk/Projek Kreatif dan Kewirausahaan">Produk/Projek Kreatif dan Kewirausahaan</option>
+                                </select>
+                                <div class="relative w-full sm:w-40 flex-shrink-0">
+                                    <input type="number" id="val-pil1" min="1" max="100" placeholder="Nilai" class="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-mantissa-teal focus:border-mantissa-teal transition-shadow font-bold text-lg text-slate-800" required>
+                                    <span class="absolute right-4 top-4 text-slate-400 text-sm font-medium">/100</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 sm:p-6 rounded-xl border-2 border-slate-200 shadow-sm hover:border-mantissa-green transition-colors focus-within:border-mantissa-green">
+                            <label class="text-sm font-semibold text-slate-700 mb-3 block">Pilih Mapel Pilihan 2 & Nilainya</label>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <select id="name-pil2" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-3.5 focus:ring-2 focus:ring-mantissa-teal focus:border-mantissa-teal focus:outline-none text-sm font-medium text-slate-700 transition-shadow" required>
+                                    <option value="" disabled selected>Pilih Mapel dari Daftar...</option>
+                                    <option value="Matematika Tingkat Lanjut">Matematika Tingkat Lanjut</option>
+                                    <option value="Bahasa Indonesia Tingkat Lanjut">Bahasa Indonesia Tingkat Lanjut</option>
+                                    <option value="Bahasa Inggris Tingkat Lanjut">Bahasa Inggris Tingkat Lanjut</option>
+                                    <option value="Fisika">Fisika</option>
+                                    <option value="Kimia">Kimia</option>
+                                    <option value="Biologi">Biologi</option>
+                                    <option value="Ekonomi">Ekonomi</option>
+                                    <option value="Sosiologi">Sosiologi</option>
+                                    <option value="Geografi">Geografi</option>
+                                    <option value="Sejarah">Sejarah</option>
+                                    <option value="Antropologi">Antropologi</option>
+                                    <option value="PPKn/Pendidikan Pancasila">PPKn/Pendidikan Pancasila</option>
+                                    <option value="Bahasa Arab">Bahasa Arab</option>
+                                    <option value="Bahasa Jerman">Bahasa Jerman</option>
+                                    <option value="Bahasa Prancis">Bahasa Prancis</option>
+                                    <option value="Bahasa Jepang">Bahasa Jepang</option>
+                                    <option value="Bahasa Korea">Bahasa Korea</option>
+                                    <option value="Bahasa Mandarin">Bahasa Mandarin</option>
+                                    <option value="Produk/Projek Kreatif dan Kewirausahaan">Produk/Projek Kreatif dan Kewirausahaan</option>
+                                </select>
+                                <div class="relative w-full sm:w-40 flex-shrink-0">
+                                    <input type="number" id="val-pil2" min="1" max="100" placeholder="Nilai" class="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-mantissa-teal focus:border-mantissa-teal transition-shadow font-bold text-lg text-slate-800" required>
+                                    <span class="absolute right-4 top-4 text-slate-400 text-sm font-medium">/100</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi -->
+                <div class="pt-4 pb-2 text-center">
+                    <button type="button" onclick="calculateTarget()" class="w-full sm:w-2/3 md:w-1/2 px-8 py-4 bg-gradient-to-r from-mantissa-teal to-mantissa-green hover:from-mantissa-dark hover:to-mantissa-teal active:scale-95 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 mx-auto transform">
+                        <span>Kalkulasi Strategi Sekarang!</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="results-section" class="hidden bg-slate-50 p-6 sm:p-10 border-t border-slate-200">
+            <div class="mb-8 text-center sm:text-left">
+                <h3 class="text-2xl font-extrabold text-mantissa-dark flex items-center justify-center sm:justify-start gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-mantissa-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                    Rekomendasi Taktis Pengerjaan Soal
+                </h3>
+                <p class="text-slate-600 mt-2 text-lg italic leading-relaxed">
+                    “Masukkan nilai rata-rata rapormu untuk memetakan proyeksi skor TKA dan target soal yang harus diamankan pada mata pelajaran wajib dan pilihan. Tujuannya agar kategori hasil TKA kamu tidak jomplang.” <br><strong class="not-italic text-mantissa-teal">“Gagal merencanakan = merencanakan kegagalan.”</strong>
+                </p>
+            </div>
+
+            <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+            
+            <div class="mt-10 bg-mantissa-light/50 border-2 border-mantissa-teal/30 rounded-2xl p-6 flex flex-col sm:flex-row gap-5 items-start">
+                <div class="bg-white p-3 rounded-xl shadow-sm flex-shrink-0 border border-mantissa-teal/10">
+                    <img src="https://iili.io/ncwQRus.png" alt="Logo Mantissa" class="h-10 object-contain" onerror="this.onerror=null; this.style.display='none';">
+                </div>
+                <div>
+                    <h4 class="font-bold text-mantissa-dark text-lg">Catatan Konsultan Akademik</h4>
+                    <p class="text-sm text-slate-700 mt-2 leading-relaxed">Target benar di atas bukanlah harga mati, namun panduan zona aman. Sistem TKA menggunakan pembobotan soal. Menjawab soal berkategori sulit (HOTS) akan memberikan suntikan poin jauh lebih tinggi daripada menjawab soal mudah. <strong class="text-mantissa-teal">Fokus pada akurasi dan pemahaman konsep mendalam!</strong></p>
+                </div>
+            </div>
+
+            <!-- Bagian Kontak WhatsApp -->
+            <div class="mt-6 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4 text-center sm:text-left">
+                    <div class="bg-white p-3 rounded-full shadow-md text-emerald-600 flex-shrink-0 mx-auto">
+                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Butuh konsultasi lebih lanjut?</h4>
+                        <p class="text-sm text-emerald-100 mt-0.5">Hubungi kami via WhatsApp di <strong class="underline">+62 821-9730-9600</strong> (klik logo) untuk bimbingan intensif TKA 2026.</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/6282197309600?text=Halo%20Mantissa,%20saya%20ingin%20konsultasi%20mengenai%20persiapan%20dan%20target%20skor%20TKA%202026." target="_blank" rel="noopener noreferrer" class="bg-white text-emerald-700 hover:bg-emerald-50 px-6 py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center gap-2 flex-shrink-0 active:scale-95">
+                    <span>Chat WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Statistik Pengunjung & Download PDF -->
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-3 text-slate-600">
+                    <div class="bg-mantissa-light p-2.5 rounded-xl text-mantissa-teal">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pengunjung / Kalkulasi</p>
+                        <p id="visitor-count" class="text-lg font-black text-mantissa-dark">Memuat statistik...</p>
+                    </div>
+                </div>
+
+                <button type="button" onclick="downloadPDF()" class="w-full sm:w-auto px-6 py-3 bg-mantissa-dark hover:bg-mantissa-teal text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    <span>Unduh Hasil Rekomendasi (PDF)</span>
+                </button>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-semibold text-slate-400">
+                <p>Dikembangkan untuk persiapan optimal.</p>
+                <div class="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full">
+                    <span>&copy; 2026</span>
+                    <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
+                    <span class="text-mantissa-teal font-bold tracking-wider">@mantissa.tc</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & Visitor Tracking Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'mantissa-tka-2026';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyDummyKeyForPreviewModeOnly",
+            authDomain: "dummy.firebaseapp.com",
+            projectId: "dummy-project"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            signInAnonymously(auth).then(async () => {
+                const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'visitor_stats');
+                
+                try {
+                    const snap = await getDoc(statsRef);
+                    if (!snap.exists()) {
+                        await setDoc(statsRef, { count: 1245 });
+                    } else {
+                        await updateDoc(statsRef, { count: increment(1) });
+                    }
+
+                    const updatedSnap = await getDoc(statsRef);
+                    const currentCount = updatedSnap.data().count;
+                    document.getElementById('visitor-count').textContent = currentCount.toLocaleString('id-ID') + ' Murid';
+                } catch (err) {
+                    console.error("Firestore stats error:", err);
+                    document.getElementById('visitor-count').textContent = '1.245+ Murid';
+                }
+            }).catch(err => {
+                console.debug("Auth fallback:", err);
+                document.getElementById('visitor-count').textContent = '1.245+ Murid';
+            });
+        } catch (e) {
+            console.debug("Firebase init fallback:", e);
+            document.getElementById('visitor-count').textContent = '1.245+ Murid';
+        }
+    </script>
+
+    <script>
+        let lastCalculationData = null;
+
+        function getCategoryData(score, subjectType) {
+            let label, target, tkaScore, colorClass, badgeClass, strategy;
+
+            if (subjectType === '30_SOAL') {
+                if (score >= 90) {
+                    label = 'Istimewa';
+                    tkaScore = '725 - 800';
+                    target = '24 - 30';
+                    colorClass = 'bg-indigo-50 border-indigo-200';
+                    badgeClass = 'bg-indigo-600 text-white';
+                    strategy = 'Rapor superior! Validasi nilai ini dengan amankan soal HOTS analitis (teks panjang/struktur rumit). Wajib sapu bersih soal sulit.';
+                } else if (score >= 83) {
+                    label = 'Baik';
+                    tkaScore = '600 - 724';
+                    target = '19 - 23';
+                    colorClass = 'bg-mantissa-light border-mantissa-teal/30';
+                    badgeClass = 'bg-mantissa-teal text-white';
+                    strategy = 'Posisi ideal. Amankan semua soal mudah dan menengah. Jangan kosongkan soal, coba curi 4-5 poin dari soal sulit.';
+                } else if (score >= 75) {
+                    label = 'Memadai';
+                    tkaScore = '450 - 599';
+                    target = '12 - 18';
+                    colorClass = 'bg-amber-50 border-amber-200';
+                    badgeClass = 'bg-amber-500 text-white';
+                    strategy = 'Fokus amankan poin dari konsep dasar. Hindari berlama-lama (stuck) pada bacaan rumit. Sisa waktu gunakan logika tebakan eliminasi.';
+                } else {
+                    label = 'Kurang';
+                    tkaScore = '200 - 449';
+                    target = '< 12';
+                    colorClass = 'bg-rose-50 border-rose-200';
+                    badgeClass = 'bg-rose-500 text-white';
+                    strategy = 'Waspada lampu kuning! Kuasai kembali pemahaman literasi dasar mutlak sebelum ujian hari H.';
+                }
+            } else {
+                if (score >= 90) {
+                    label = 'Istimewa';
+                    tkaScore = '725 - 800';
+                    target = '21 - 25';
+                    colorClass = 'bg-indigo-50 border-indigo-200';
+                    badgeClass = 'bg-indigo-600 text-white';
+                    strategy = 'Rapor superior! Buktikan penguasaanmu di penalaran kompleks. Incar soal dengan poin premium yang dihindari banyak orang.';
+                } else if (score >= 83) {
+                    label = 'Baik';
+                    tkaScore = '600 - 724';
+                    target = '16 - 20';
+                    colorClass = 'bg-mantissa-light border-mantissa-teal/30';
+                    badgeClass = 'bg-mantissa-teal text-white';
+                    strategy = 'Konsisten. Eksekusi cepat soal konsep dasar dan menengah. Curi poin dari soal yang butuh ketelitian.';
+                } else if (score >= 75) {
+                    label = 'Memadai';
+                    tkaScore = '450 - 599';
+                    target = '10 - 15';
+                    colorClass = 'bg-amber-50 border-amber-200';
+                    badgeClass = 'bg-amber-500 text-white';
+                    strategy = 'Amankan poin mutlak dari operasi dasar dan pemahaman grafik/tabel. Jangan buang waktu di perhitungan pelik.';
+                } else {
+                    label = 'Kurang';
+                    tkaScore = '200 - 449';
+                    target = '< 10';
+                    colorClass = 'bg-rose-50 border-rose-200';
+                    badgeClass = 'bg-rose-500 text-white';
+                    strategy = 'Lampu kuning! Rapor rentan dianulir. Prioritaskan perbaikan fondasi operasi hitung mutlak dari sekarang.';
+                }
+            }
+
+            return { label, target, tkaScore, colorClass, badgeClass, strategy };
+        }
+
+        function calculateTarget() {
+            const errorBox = document.getElementById('error-box');
+            const errorMessage = document.getElementById('error-message');
+            const resultsSection = document.getElementById('results-section');
+            const resultsGrid = document.getElementById('results-grid');
+
+            errorBox.classList.add('hidden');
+
+            const vIndo = parseFloat(document.getElementById('val-indo').value);
+            const vIng = parseFloat(document.getElementById('val-inggris').value);
+            const vMath = parseFloat(document.getElementById('val-math').value);
+            
+            const nPil1 = document.getElementById('name-pil1').value;
+            const vPil1 = parseFloat(document.getElementById('val-pil1').value);
+            
+            const nPil2 = document.getElementById('name-pil2').value;
+            const vPil2 = parseFloat(document.getElementById('val-pil2').value);
+
+            const values = [vIndo, vIng, vMath, vPil1, vPil2];
+            if (values.some(isNaN) || !nPil1 || !nPil2) {
+                showError("Mohon lengkapi semua kolom mata pelajaran dan nilainya.");
+                return;
+            }
+
+            if (values.some(v => v < 1 || v > 100)) {
+                showError("Semua nilai rapor harus berada dalam rentang angka 1 hingga 100.");
+                return;
+            }
+
+            const subjects = [
+                { name: 'Bahasa Indonesia', score: vIndo, type: '30_SOAL', total: 30, icon: 'book-open' },
+                { name: 'Bahasa Inggris', score: vIng, type: '30_SOAL', total: 30, icon: 'globe' },
+                { name: 'Matematika', score: vMath, type: '25_SOAL', total: 25, icon: 'calculator' },
+                { name: nPil1, score: vPil1, type: '25_SOAL', total: 25, icon: 'beaker' },
+                { name: nPil2, score: vPil2, type: '25_SOAL', total: 25, icon: 'beaker' }
+            ];
+
+            lastCalculationData = subjects.map(subj => {
+                const analysis = getCategoryData(subj.score, subj.type);
+                return { ...subj, ...analysis };
+            });
+
+            resultsGrid.innerHTML = ''; 
+            
+            lastCalculationData.forEach((item, index) => {
+                const delay = index * 100;
+                
+                let iconSvg = '';
+                if(item.icon === 'book-open') iconSvg = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
+                else if(item.icon === 'globe') iconSvg = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                else if(item.icon === 'calculator') iconSvg = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>';
+                else iconSvg = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>';
+
+                const card = document.createElement('div');
+                card.className = `border-2 rounded-2xl p-5 ${item.colorClass} fade-in-up flex flex-col h-full bg-white/80 backdrop-blur-sm shadow-md hover:shadow-lg transition-shadow relative overflow-hidden group`;
+                card.style.animationDelay = `${delay}ms`;
+                
+                const ribbonColor = item.type === '30_SOAL' ? 'bg-mantissa-teal' : 'bg-mantissa-green';
+                const ribbonText = item.type === '30_SOAL' ? '30 Soal' : '25 Soal';
+                
+                card.innerHTML = `
+                    <div class="absolute -right-10 top-4 ${ribbonColor} text-white text-[10px] font-bold px-10 py-1 rotate-45 shadow-sm opacity-90">
+                        ${ribbonText}
+                    </div>
+
+                    <div class="flex justify-between items-start mb-4 pr-6">
+                        <div class="flex items-start gap-2">
+                            <div class="text-slate-400 mt-1">${iconSvg}</div>
+                            <h4 class="font-extrabold text-slate-800 text-lg leading-tight" title="${item.name}">${item.name}</h4>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Rapor</span>
+                            <span class="text-3xl font-black text-mantissa-dark">${item.score}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 my-2 border border-slate-100 shadow-inner flex flex-col gap-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Target TKA</span>
+                            <span class="text-base font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-md">${item.tkaScore}</span>
+                        </div>
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Minimal Benar</span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-mantissa-teal">${item.target}</span>
+                                <span class="text-xs font-bold text-slate-400">/ ${item.total}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2.5 py-1 text-[11px] font-black uppercase rounded-md shadow-sm ${item.badgeClass}">${item.label}</span>
+                        </div>
+                        <p class="text-sm leading-relaxed text-slate-600 font-medium">${item.strategy}</p>
+                    </div>
+                `;
+                
+                resultsGrid.appendChild(card);
+            });
+
+            resultsSection.classList.remove('hidden');
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function downloadPDF() {
+            if (!lastCalculationData) {
+                showError("Silakan lakukan kalkulasi target terlebih dahulu sebelum mengunduh PDF.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFillColor(0, 77, 64);
+            doc.rect(0, 0, 210, 35, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("MANTISSA TUTORING CENTER", 14, 16);
+            
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Laporan Resmi Rekomendasi Target & Strategi TKA 2026", 14, 24);
+
+            doc.setFillColor(67, 160, 71);
+            doc.rect(0, 35, 210, 3, 'F');
+
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(9);
+            const today = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            doc.text(`Tanggal Cetak: ${today}`, 14, 46);
+
+            let yPos = 55;
+
+            doc.setTextColor(0, 77, 64);
+            doc.setFontSize(13);
+            doc.setFont("helvetica", "bold");
+            doc.text("Ringkasan Target Minimal Jawaban Benar per Mata Pelajaran:", 14, yPos);
+
+            yPos += 8;
+
+            lastCalculationData.forEach((item, index) => {
+                if (yPos > 260) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+
+                doc.setFillColor(240, 253, 244);
+                doc.setDrawColor(0, 137, 123);
+                doc.roundedRect(14, yPos, 182, 28, 3, 3, 'FD');
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                doc.setTextColor(17, 24, 39);
+                doc.text(`${index + 1}. ${item.name}`, 18, yPos + 7);
+
+                doc.setFontSize(9);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Nilai Rapor: ${item.score}   |   Kategori: ${item.label}   |   Target Skor TKA: ${item.tkaScore}`, 18, yPos + 14);
+                
+                doc.setFont("helvetica", "bold");
+                doc.setTextColor(0, 137, 123);
+                doc.text(`Target Minimal Benar: ${item.target} dari ${item.total} Soal`, 18, yPos + 22);
+
+                yPos += 33;
+            });
+
+            if (yPos > 240) {
+                doc.addPage();
+                yPos = 20;
+            }
+
+            yPos += 5;
+            doc.setFillColor(224, 242, 241);
+            doc.roundedRect(14, yPos, 182, 25, 3, 3, 'F');
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(10);
+            doc.setTextColor(0, 77, 64);
+            doc.text("Catatan Konsultan Akademik Mantissa:", 18, yPos + 7);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8.5);
+            doc.setTextColor(50, 50, 50);
+            doc.text("Target benar di atas adalah panduan zona aman. Maksimalkan pemahaman konsep dasar dan soal HOTS", 18, yPos + 13);
+            doc.text("untuk mendongkrak bobot skor IRT. Hubungi WhatsApp: +62 821-9730-9600 untuk konsultasi intensif.", 18, yPos + 19);
+
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text("© 2026 Mantissa Tutoring Center (@mantissa.tc) - Dokumen Resmi Simulasi TKA", 105, 287, { align: 'center' });
+
+            doc.save('Rekomendasi_Target_TKA_2026_Mantissa.pdf');
+        }
+
+        function showError(msg) {
+            const errorBox = document.getElementById('error-box');
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = msg;
+            errorBox.classList.remove('hidden');
+            errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
